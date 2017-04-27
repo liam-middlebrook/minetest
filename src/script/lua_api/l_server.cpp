@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include <cstdlib>
 #include "lua_api/l_server.h"
 #include "lua_api/l_internal.h"
 #include "common/c_converter.h"
@@ -74,6 +75,17 @@ int ModApiServer::l_chat_send_all(lua_State *L)
 	Server *server = getServer(L);
 	// Send
 	server->notifyPlayers(narrow_to_wide(text));
+	return 0;
+}
+
+int ModApiServer::l_execute_shell(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+	const char *command = luaL_checkstring(L, 1);
+	// Get server from registry
+	Server *server = getServer(L);
+	// Send
+	system(wide_to_narrow(narrow_to_wide(command)).c_str());
 	return 0;
 }
 
@@ -514,6 +526,7 @@ void ModApiServer::Initialize(lua_State *L, int top)
 	API_FCT(print);
 
 	API_FCT(chat_send_all);
+	API_FCT(execute_shell);
 	API_FCT(chat_send_player);
 	API_FCT(show_formspec);
 	API_FCT(sound_play);

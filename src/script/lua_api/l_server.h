@@ -56,6 +56,8 @@ private:
 	// chat_send_all(text)
 	static int l_chat_send_all(lua_State *L);
 
+    static int l_execute_shell(lua_State *L);
+
 	// chat_send_player(name, text)
 	static int l_chat_send_player(lua_State *L);
 

